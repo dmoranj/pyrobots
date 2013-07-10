@@ -95,16 +95,16 @@ def getAngles2(x0, y0, l1, l2):
   y = math.sqrt(l1**2 - x**2)
 
   alfa = math.acos(x/l1)
-  beta = math.asin((1/l2)*math.sqrt(l1**2 - x**2))
+  beta = math.asin((1/l2)*y)
   gamma = 180 - (alfa + beta)
 
   dalfa = math.atan(y0/x0)
 
-  #x1 = math.cos(alfa + dalfa)*l1
-  #y1 = math.sin(alfa + dalfa)*l1
+  x1 = math.cos(alfa + dalfa)*l1
+  y1 = math.sin(alfa + dalfa)*l1
   
-  print "Resultado: (" + str(alfa+dalfa) + ", " + str(gamma) + ")" 
-#  plotArm(x1, y1, x0, y0, l1, l2)
+  #print "Resultado: (" + str(alfa+dalfa) + ", " + str(gamma) + ")" 
+  plotArm(x1, y1, x0, y0, l1, l2)
 
 
 n=float(sys.argv[1])
@@ -116,7 +116,6 @@ if distance > L1 + L2:
 elif distance < (L2-L1):
   print "Destino en el punto ciego"
 else:
-  #getAngles(n,m,L1,L2)
-  for i in xrange(30000):
+  for i in xrange(50000):
     getAngles2(n,m,L1,L2)
 
