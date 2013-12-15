@@ -4,8 +4,6 @@ import matplotlib.patches as patches
 import math
 import sys
 
-L1=13.0
-L2=22.0
 
 def plotArm(x1, y1, xf, yf, l1, l2):
   X = np.linspace(0, 30, 256,endpoint=True)
@@ -60,34 +58,7 @@ def plotArm(x1, y1, xf, yf, l1, l2):
   ax.grid(which='minor', axis='y', linewidth=0.25, linestyle='-', color='0.75')
   show()
 
-def getAngles(xf, yf, l1, l2):
-
-  print "Calculando para (" + str(xf) + ", " + str(yf) + ")"
-  a=l2*(l2+l1)
-  b=2*yf*l2
-  c=l2*l1+l1**2-xf*l1-yf**2
-
-  root = - math.sqrt(b**2 + 4*a*c)
-  fi= (b + root)/(2*a)
-  negfi = (b - root)/(2*a)
- 
-  beta = math.asin(fi)
-
-  print "La beta seria: " + str(math.degrees(beta)) 
-
-  x1 = xf - (1 - fi**2)*l2
-  
-  print "x1 seria: " + str(x1)
-
-  alfa = math.acos(x1/l1)
-  print "La alfa seria: " + str(math.degrees(alfa))
-
-  y1 = l1 * math.sin(alfa) 
-
-  print "Y la y1 seria entonces: " + str(y1)
-  plotArm(x1, y1, xf, yf, l1, l2)
-
-def getAngles2(x0, y0, l1, l2):
+def getAngles(x0, y0, l1, l2):
   xf = math.sqrt(y0**2 + x0**2)
   
   x = (l1**2 - l2**2 + xf**2)/(2*xf)
@@ -96,26 +67,14 @@ def getAngles2(x0, y0, l1, l2):
 
   alfa = math.acos(x/l1)
   beta = math.asin((1/l2)*y)
-  gamma = 180 - (alfa + beta)
+  gamma = math.pi - (alfa + beta)
 
   dalfa = math.atan(y0/x0)
 
   x1 = math.cos(alfa + dalfa)*l1
   y1 = math.sin(alfa + dalfa)*l1
   
-  #print "Resultado: (" + str(alfa+dalfa) + ", " + str(gamma) + ")" 
-  plotArm(x1, y1, x0, y0, l1, l2)
-
-
-n=float(sys.argv[1])
-m=float(sys.argv[2])
-
-distance = (math.sqrt(m**2 + n**2))
-if distance > L1 + L2:
-  print "Punto fuera de alcance"
-elif distance < (L2-L1):
-  print "Destino en el punto ciego"
-else:
-  for i in xrange(50000):
-    getAngles2(n,m,L1,L2)
+  print "Resultado: (" + str(alfa+dalfa) + ", " + str(gamma) + ")" 
+  #plotArm(x1, y1, x0, y0, l1, l2)
+  return (alfa+dalfa, gamma)
 
